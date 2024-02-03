@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Movie Listings @ GV Cinema</h1>
+
+<div style="margin-top: 1%;margin-bottom: 10%;">
+    <input id="movieInput" onkeyup="search()" size="50" placeholder="search your favorite movie">
+</div> 
+
+<div style="border: 1px solid black;">
+    <h2>Popular Movies this month</h2>
+    <form method="post" action="{% url 'detail' %}">
+        {% csrf_token %}
+    <table id="movieTable">
+        <thead>
+
+        </thead>
+        <tbody>
+            <tr>
+            {% for movie in data %}
+                {% if forloop.counter0|divisibleby:"4" %}
+                    </tr><tr style="margin-top: 4m;">
+                {% endif %}       
+                    <td style="width:150vw;height:20vh;">
+                        <button value="{{movie.id}}" name="movie" style="border:none;background-color:white;cursor: pointer;">
+                            <img src="static/{{movie.imgPath}}" alt={{movie.name}} style="width:90%;height:90%"/>
+                        
+                            <div id="name" style="width: 80%;">   
+                                {{movie.name.strip}}
+                                <br>
+                            </div>
+                            <div>
+                                {{movie.duration}} min
+                                <br>
+                                user rating:{{movie.userRating}}
+                            </div>
+                        </button>
+                    </td>
+                    
+            {% endfor %}
+            </tr>
+        </tbody>
+</div>
+</table>
+</form>
+<script>
+    function search(){
+        var input = document.getElementById("movieInput");
+        var filter = input.value.toUpperCase();
+        var table = document.getElementById("movieTable");
+        var tr = table.getElementsByTagName("tr");
+        //console.log(document.getElementById("name"))
+        
+        
+        for(i=0;i< tr.length;i++){
+            td = tr[i].getElementsByTagName("td");
+            for(j=0;j<td.length;j++){
+                var name = td[j].getElementsByTagName("div")[0];
+                if (name.innerText.toUpperCase().indexOf(filter) > -1){
+                    td[j].style.display = "";
+                } else {
+                    td[j].style.display = "none";
+                }
+            }
+        }
+        
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Movie Listings @ GV Cinema</h1>
+<a href="{% url 'index' %}">
+    <button>Back</button>
+</a>
+<h2>{{movie.name}}</h2>
+<p>({{mpaaRating.type}}: {{mpaaRating.label}})</p>
+
+<div>
+    <div style="width: 30%; float: left;"> 
+        <img src="static/{{movie.imgPath}}" alt="{{movie.name}}" style="width: 80%;height: 70%;"/>
+    </div>
+    <div style="width: 70%; float: left;">
+        <h3>Details</h3>
+        <p>Genre: {{movie.genre}}</p>
+        <p>Language: {{movie.language}}</p>
+        <p>Duration: {{movie.duration}} minutes</p>
+        <p>User Rating: {{movie.userRating}}</p>
+        <h3>Synopsis</h3>
+        <p>{{movie.description}}</p>
+
+    </div>
+</div>
+
+
+{% endblock %}
